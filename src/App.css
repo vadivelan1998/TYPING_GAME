@@ -1,7 +1,48 @@
 .App {
   text-align: center;
 }
-
+.home {
+  height: 100%;
+  background-color: rgb(10, 24, 83);
+  position: fixed;
+  width: 100%;
+  color: rgb(255, 254, 255);
+}
+.alphabet {
+  display: flex;
+  border-radius: 20px;
+  color: green;
+  width: 35%;
+  height: 200px;
+  margin: auto;
+  background-color: rgb(255, 254, 255);
+  font-size: xx-large;
+  align-items: center;
+  justify-content: center;
+}
+.input {
+  box-sizing: border-box;
+  height: 70px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 75%;
+  border: 0;
+  font-size: x-large;
+  outline: none;
+  padding: 20px;
+}
+.reset {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 70px;
+  width: 25%;
+  background-color: rgb(241, 64, 107);
+  border: 0;
+  font-size: x-large;
+  color: rgb(255, 254, 255);
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
