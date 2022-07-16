@@ -24,6 +24,7 @@ export const Input = () => {
   }
   return (
     <div>
+      
       <input
         onChange={handleInput}
         className="input"
