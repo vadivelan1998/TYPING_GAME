@@ -4,7 +4,13 @@ import { createContext,useEffect, useState } from "react";
 export const Context = createContext();
 export const ContextProvider = ({ children }) => {
 const [result,setResult]=useState(false)
-//  random letter
+const [status,setStatus]=useState(false)
+//My Best Time
+const[mbt,setmbt]=useState(localStorage.getItem("mybesttime"))
+//console.log(mybesttime)
+
+
+//  random letter generation
 const [letter,setLetter]=useState('A')
 function randomAlphabet(){
 var alphabet = [
@@ -60,6 +66,8 @@ useEffect(() => {
   return (
     <Context.Provider
       value={{
+        status,setStatus,
+       mbt,setmbt,
         result,
         setResult,
         timer,

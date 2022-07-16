@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: sans-serif;
 }
 .home {
   height: 100%;
@@ -20,6 +21,11 @@
   align-items: center;
   justify-content: center;
 }
+.input::after {
+  content: attr(data-end) ;
+  color: green ;
+}
+
 .input {
   box-sizing: border-box;
   height: 70px;
@@ -31,6 +37,7 @@
   font-size: x-large;
   outline: none;
   padding: 20px;
+  font-weight: 600;
 }
 .reset {
   position: fixed;

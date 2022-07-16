@@ -2,16 +2,15 @@ import { useContext, useState } from "react";
 import { Context } from "../Contexts/Context";
 
 export const Input = () => {
-  const { setResult, setTimer, setOnTimer, letter, randomAlphabet } =
-    useContext(Context);
+  const {setStatus,setResult, setTimer, setOnTimer, letter, randomAlphabet } = useContext(Context);
   const [count, setCount] = useState(0);
-  console.log(count);
+  //console.log(count);
 
   function handleInput(e) {
     if (e.key !== letter) {
       setTimer((prev) => prev + 500);
     }
-    if (count <= 20) {
+    if (count<19) {
       console.log(e.key);
       setCount((prev) => prev + 1);
       setOnTimer(true);
@@ -20,6 +19,7 @@ export const Input = () => {
       setOnTimer(false);
       setResult(true);
       document.querySelector(".input").disabled = true;
+      
     }
   }
   return (
@@ -38,6 +38,7 @@ export const Input = () => {
           document.querySelector(".input").value = "";
           document.querySelector(".input").disabled = false;
           setResult(false);
+          setStatus(false)
         }}
         className="reset"
       >
