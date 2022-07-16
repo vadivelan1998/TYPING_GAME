@@ -9,7 +9,7 @@ export const Home = () => {
   return (
     <div className="home">
       <h1>Type The Alphabet</h1>
-      <h3>Typing game to see how fast type. The timer starts when you do :)</h3>
+      <p>Typing game to see how fast type. The timer starts when you do :)</p>
       <br />
       {result ? <ResultCard /> : <AlphabetCard />}
 

@@ -24,10 +24,10 @@ export const Timer = () => {
 
   return (
     <div>
-      <h2 className="timer">
+      <h3 className="timer">
         Time:<span className="time">{(timer / 1000).toFixed(3)}</span>s
-      </h2>
-      <h3>my best time: {mbt?mbt:"Lets Play "} </h3>
+      </h3>
+      <p>my best time: {mbt?mbt:"Lets Play "} </p>
     </div>
   );
 };
