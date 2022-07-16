@@ -25,7 +25,7 @@ export const Input = () => {
   return (
     <div>
       <input
-        onKeyPress={handleInput}
+        onChange={handleInput}
         className="input"
         type="text"
         placeholder="Type Here"
