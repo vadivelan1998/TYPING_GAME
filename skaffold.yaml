@@ -1,0 +1,31 @@
+apiVersion: skaffold/v2beta27
+kind: Config
+profiles:
+  - name: velu-game
+    build:
+      artifacts:
+        - image: asia-southeast1-docker.pkg.dev/convint-testing/velu-testing/game
+          context: .
+          sync:
+            infer:
+              - schema.gql
+              - src/**/*.*
+              - prisma/**/*.*
+    deploy:
+      helm:
+        releases:
+          - name: helm-game
+            chartPath: ./helm-game
+            valuesFiles:
+              - ./helm-game/values.yaml
+            artifactOverrides:
+              image:  asia-southeast1-docker.pkg.dev/convint-testing/velu-testing/game
+            namespace: default
+            skipBuildDependencies: true
+            # useHelmSecrets: true
+            imageStrategy:
+              helm: {}
+        flags:
+          upgrade:
+            - --install
+      statusCheckDeadlineSeconds: 500

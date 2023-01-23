@@ -1,0 +1,10 @@
+replicaCount: 1
+image:
+  repository: "asia-southeast1-docker.pkg.dev/convint-testing/velu-testing/game"
+  tag: "latest"
+  pullPolicy: Always
+service:
+  type: NodePort
+  port: 80
+
+
