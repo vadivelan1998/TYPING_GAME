@@ -1,0 +1,141 @@
+name: TypingGame App Deployment to GKE
+
+
+
+
+on:
+
+  push:
+
+    branches:
+
+      - main
+
+
+
+
+env:
+
+  GAR_LOCATION: us-central1
+
+  GKE_CLUSTER: hello-world
+
+  GKE_ZONE: us-central1
+
+  DEPLOYMENT_NAME: helm-game
+
+  USE_GKE_GCLOUD_AUTH_PLUGIN: True
+
+
+
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Checkout from Repository
+
+      - name: Checkout
+
+        uses: actions/checkout@v2
+
+
+
+
+      # Authenticate with GCP
+
+      - id: "auth"
+
+        uses: "google-github-actions/auth@v1"
+
+        with:
+
+          credentials_json: "${{ secrets.GCP_CREDENTIALS_DEV }}"
+
+
+
+
+      # Setup gcloud CLI
+
+      - name: Set up Cloud SDK
+
+        uses: google-github-actions/setup-gcloud@v1
+
+
+
+
+      - name: Set up GKE credentials
+
+        run: |-
+
+          gcloud components install gke-gcloud-auth-plugin && gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+
+      # Configure Docker to use the gcloud command-line tool as a credential
+
+      # helper for authentication
+
+      - run: |-
+
+          gcloud --quiet auth configure-docker asia-southeast1-docker.pkg.dev
+
+      # Install kubectl
+
+      - name: Install kubectl
+
+        run: |
+
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+          curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+
+          echo "$(<kubectl.sha256) kubectl" | sha256sum --check
+
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+          kubectl version --client
+
+      # Install Skaffold
+
+      - name: Install Skaffold
+
+        run: |
+
+          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.36.0/skaffold-linux-amd64 && \
+
+          sudo install skaffold /usr/local/bin/
+
+          skaffold version
+
+      # Cache skaffold image builds & config
+
+      - name: Cache skaffold image builds & config
+
+        uses: actions/cache@v2
+
+        with:
+
+          path: ~/.skaffold/
+
+          key: fixed-${{ github.sha }}
+
+
+
+
+      # Run Skaffold
+
+      - name: Build and then deploy to GKE cluster with Skaffold
+
+        run: skaffold run -p velu-game --default-repo asia-southeast1-docker.pkg.dev/convint-testing/velu-testing/game --status-check
+
+
+
+
+      # Verify deployment
+
+      - name: Verify deployment
+
+        run: kubectl get pods
